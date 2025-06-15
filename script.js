@@ -1,3 +1,5 @@
+const buttons = document.querySelector(".buttons");
+
 function getComputerChoice() {
     let choice = Math.floor(Math.random() * 3);
     switch (choice) {
@@ -9,10 +11,26 @@ function getComputerChoice() {
             return "S";
     }
 }
-
-function getHumanChoice() {
-    return prompt("Rock (R), Paper (P) or Scissors (S)? Enter your choice here: ").charAt(0).toUpperCase();
+        
+function whichButton(e) {
+    buttons.removeEventListener('click', whichButton);
+    let target = e.target;
+    switch(target.id) {
+        case 'rock':    
+            console.log("Clicked Rock");
+            playRound("R", getComputerChoice());
+            break;
+        case 'paper':
+            console.log("Clicked Paper");
+            playRound("P", getComputerChoice());
+            break;
+        case 'scissors':
+            console.log("Clicked Scissors");
+            playRound("S", getComputerChoice());
+            break;
+    }
 }
+
 
 
 let humanScore = 0;
@@ -73,16 +91,17 @@ function playRound(humanChoice, computerChoice) {
     console.log("");
     console.log("Your score: " + humanScore);
     console.log("Computer score: " + computerScore);
+    playGame();
 
 
 }
 
 function playGame() {
     console.log("Welcome to Rock, Paper, Scissors!")
-    while (humanScore < 3 && computerScore < 3) {
-        playRound(getHumanChoice(), getComputerChoice());
+    if (humanScore < 3 && computerScore < 3) {
+        buttons.addEventListener('click', whichButton);
     }
-    if (humanScore === 3) {
+    else if (humanScore === 3) {
         console.log("You beat the computer! Nice job!")
     }
     else {
