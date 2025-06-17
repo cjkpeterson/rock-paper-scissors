@@ -1,4 +1,5 @@
 const buttons = document.querySelector(".buttons");
+const output = document.querySelector(".output");
 
 function getComputerChoice() {
     let choice = Math.floor(Math.random() * 3);
@@ -17,15 +18,12 @@ function whichButton(e) {
     let target = e.target;
     switch(target.id) {
         case 'rock':    
-            console.log("Clicked Rock");
             playRound("R", getComputerChoice());
             break;
         case 'paper':
-            console.log("Clicked Paper");
             playRound("P", getComputerChoice());
             break;
         case 'scissors':
-            console.log("Clicked Scissors");
             playRound("S", getComputerChoice());
             break;
     }
@@ -36,21 +34,24 @@ function whichButton(e) {
 let humanScore = 0;
 let computerScore = 0;
 
+const humanDisplay = document.querySelector(".scores #human");
+const computerDisplay = document.querySelector(".scores #computer");
+
 function playRound(humanChoice, computerChoice) {
-    console.log("First to 3 wins!");
-    console.log("");
+    const winner = document.createElement("p");
+    output.appendChild(winner);
     switch (humanChoice) {
         case "R":
             switch (computerChoice) {
                 case "R":
-                    console.log("Tie! You both played Rock");
+                    winner.textContent = "Tie! You both played Rock";
                     break;
                 case "P":
-                    console.log("You lose! You chose rock, but the computer chose paper");
+                    winner.textContent = "You lose! You chose rock, but the computer chose paper";
                     computerScore++;
                     break;
                 case "S":
-                    console.log("You win! You chose rock, and the silly computer chose scissors");
+                    winner.textContent = "You win! You chose rock, and the silly computer chose scissors";
                     humanScore++;
                     break;
             }
@@ -58,14 +59,14 @@ function playRound(humanChoice, computerChoice) {
         case "P":
             switch (computerChoice) {
                 case "R":
-                    console.log("You win! You chose paper, and the silly computer chose rock");
+                    winner.textContent = "You win! You chose paper, and the silly computer chose rock";
                     humanScore++;
                     break;
                 case "P":
-                    console.log("Tie! You both played Paper");
+                    winner.textContent = "Tie! You both played Paper";
                     break;
                 case "S":
-                    console.log("You lose! You chose paper, but the computer chose scissors");
+                    winner.textContent = "You lose! You chose paper, but the computer chose scissors";
                     computerScore++;
                     break;
             }
@@ -73,39 +74,41 @@ function playRound(humanChoice, computerChoice) {
         case "S":
             switch (computerChoice) {
                 case "R":
-                    console.log("You lose! You chose scissors, but the computer chose rock");
+                    winner.textContent = "You lose! You chose scissors, but the computer chose rock";
                     computerScore++;    
                     break;
                 case "P":
-                    console.log("You win! You chose scissors, and the silly computer chose paper");
+                    winner.textContent = "You win! You chose scissors, and the silly computer chose paper";
                     humanScore++;
                     break;
                 case "S":
-                    console.log("Tie! You both played Scissors");
+                    winner.textContent = "Tie! You both played Scissors";
                     break;
             }
             break;
         default:
-            console.log("Please enter a valid choice")
+             winner.textContent = "Please enter a valid choice";
     }
-    console.log("");
-    console.log("Your score: " + humanScore);
-    console.log("Computer score: " + computerScore);
     playGame();
 
 
 }
 
 function playGame() {
-    console.log("Welcome to Rock, Paper, Scissors!")
-    if (humanScore < 3 && computerScore < 3) {
+    humanDisplay.textContent = humanScore;
+    computerDisplay.textContent = computerScore;
+    if (humanScore < 5 && computerScore < 5) {
         buttons.addEventListener('click', whichButton);
     }
-    else if (humanScore === 3) {
-        console.log("You beat the computer! Nice job!")
-    }
     else {
-        console.log("The computer has defeated you :(")
+        const finalWinner = document.createElement("h2");
+        output.appendChild(finalWinner);
+        if (humanScore === 5) {
+            finalWinner.textContent = "You beat the computer! Nice job!";
+        }
+        else {
+            finalWinner.textContent = "The computer has defeated you :(";
+        }
     }
 }
 
